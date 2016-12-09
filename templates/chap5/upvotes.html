@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upvotes</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <button class="btn btn-sm btn-info" v-on:click="upvotes++">Upvote</button>
+    Upvote count : {{ upvotes }}
+    </div>
+
+</body>
+<script src="../js/vue.min.js"></script>
+<script>
+    new Vue({
+        el:'.container',
+        data:{
+            upvotes:0
+        }
+
+    })
+</script>
+</html>

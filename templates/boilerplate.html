@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+
+    <pre>
+        {{ $data|json }}
+    </pre>
+</div>
+
+</body>
+<script src="../js/vue.min.js"></script>
+<script>
+    new Vue({
+        el:'.container',
+        data:{
+
+        }
+
+    })
+</script>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multiply</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Multiplication Table of 4</h1>
+        <ul class="list-group">
+            <li class="list-group-item" v-for="i in 11">
+                {{ i }} time 4 is equal to {{ i*4 }}
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="../js/vue.min.js"></script>
+<script>
+    new Vue({
+        el:'.container'
+
+    })
+</script>
+</html>

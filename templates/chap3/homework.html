@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mister Miss</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div id="app">
+        <h1>
+            <div v-if="gender == 'male' || gender == 'female' ">
+                Hello, <span v-show="gender == 'male' ">Mister </span><span v-else>Miss </span>
+                {{ name }}
+            </div>
+            <div v-else>So you can't decide. Fine! </div>
+        </h1>
+
+        <input class="form-control" placeholder="Enter your gender" v-model="gender">
+        <input class="form-control" placeholder="Enter your name" v-model="name">
+        <pre>
+    {{ $data | json }}
+    </pre>
+    </div>
+</div>
+</body>
+<script src="../js/vue.min.js"></script>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            name:'',
+            gender:''
+        }
+    })
+</script>
+</html>

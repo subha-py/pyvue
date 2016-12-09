@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rewrite Story</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <story v-bind:story="{plot:'My horse is amazing',writer:'Mr.Weebl'}"></story>
+    <story v-bind:story="{plot:'Narwhals invented Shish Kebab',writer:'Mr.Weebl'}"></story>
+    <story v-bind:story="{plot:'The dark side of the force is stronger',writer:'Darth Vader'}"></story>
+    <pre>
+        {{ $data|json }}
+    </pre>
+    <template id="story-template">
+        <h3>{{ story.writer }} said "{{ story.plot }}"</h3>
+    </template>
+</div>
+
+</body>
+<script src="../js/vue.min.js"></script>
+<script>
+    Vue.component('story',{
+        props:['story'],
+        template: '#story-template'
+    });
+    new Vue({
+        el:'.container',
+        data:{
+
+        }
+
+    })
+</script>
+</html>

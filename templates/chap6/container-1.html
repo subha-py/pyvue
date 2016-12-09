@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Container 1</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <story plot="The horse is amazing"></story>
+    <story plot="Narwhals invented Shish Kebab"></story>
+    <story plot="The dark side of the Force is stronger"></story>
+
+    <pre>
+        {{ $data|json }}
+    </pre>
+</div>
+<template id="story-template">
+
+    <h1>{{ plot }}</h1>
+
+</template>
+</body>
+<script src="../js/vue.min.js"></script>
+
+<script>
+    Vue.component('story',{
+        template: '#story-template',
+        props:['plot'],
+    });
+    new Vue({
+        el:'.container',
+        data:{
+
+        }
+
+    })
+</script>
+</html>

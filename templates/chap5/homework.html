@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Who is the mayor?</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body @keyup.c="clear">
+<div class="container">
+    <ul class="list-group">
+        <li class="list-group-item" v-for="candidate in candidates ">
+            Mr.{{ candidate.name }} - {{ candidate.vote }}
+            <button class="btn btn-sm" @click="candidate.vote++">Vote</button>
+        </li>
+    </ul>
+    <h2>Our mayor is {{ mayor.name }}!</h2>
+    <pre>
+        {{ $data|json }}
+    </pre>
+</div>
+
+</body>
+<script src="../js/vue.min.js"></script>
+<script>
+    new Vue({
+        el:'body',
+        data:{
+            candidates:[
+                {
+                    name:'North',
+                    vote:0
+                },
+                {
+                    name:'East',
+                    vote:0
+                },
+                {
+                    name:'South',
+                    vote:0
+                },
+                {
+                    name:'West',
+                    vote:0
+                }
+            ]
+        },
+        computed:{
+            mayor:function () {
+                var candidatesSorted=this.candidates.sort(function (a,b) {
+                    return b.vote-a.vote;
+                });
+                return candidatesSorted[0]
+            }
+        },
+        methods:{
+            clear:function () {
+                this.candidates=this.candidates.map(function (candidate) {
+                    candidate.votes=0;
+                    return candidate
+                })
+            }
+        }
+
+
+
+    })
+</script>
+</html>

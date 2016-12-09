@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Learning Computed</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+
+    a={{ a }}  b={{ b }}
+    <input v-model="a">
+
+    <pre>
+        {{ $data|json }}
+    </pre>
+</div>
+
+</body>
+<script src="../js/vue.min.js"></script>
+<script>
+    new Vue({
+        el:'.container',
+        data:{
+            a:1,
+
+        },
+        computed:{
+            b:function () {
+                return parseFloat(this.a)+1
+            }
+        }
+
+    })
+</script>
+</html>

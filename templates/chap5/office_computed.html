@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Office People</title>
+
+    <!-- Stylesheet -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <header><h1>Office Grouping by age</h1></header>
+    <h3>Order by age</h3>
+    <ul class="list-group">
+        <li class="list-group-item" v-for="person in office | orderBy 'age' order ">
+            {{ $index+1 }}. {{ person.name }} is {{ person.age }} years old
+        </li>
+    </ul>
+
+        <button class="btn btn-sm btn-success" @click="order=order*-1">
+            Change order
+        </button>
+    </br><hr>
+    <h3>People who are elder than most.({{  old_employee.length }})</h3>
+    <ul class="list-group">
+        <li class="list-group-item" v-for="person in old_employee ">
+            {{ $index+1 }}. {{ person.name }} is  elder than most.
+        </li>
+    </ul>
+    <pre>
+        {{ $data|json }}
+    </pre>
+</div>
+</body>
+<script src="../js/vue.min.js"></script>
+<script>
+
+    new Vue({
+        el:'.container',
+        data:{
+            order:-1,
+            office:[
+                {
+                    name:'Subha',
+                    age:22
+                },
+                {
+                    name:'Mohit',
+                    age:28
+                },
+                {
+                    name:'Vivek',
+                    age:25
+                },
+                {
+                    name:'Nisarg',
+                    age:25
+                },
+                {
+                    name:'Shubham',
+                    age:23
+                },
+                {
+                    name:'Alka',
+                    age:22
+                },
+                {
+                    name:'Sukriti',
+                    age:21
+                },
+                {
+                    name:'Pranav',
+                    age:22
+                },
+                {
+                    name:'Neerav',
+                    age:40
+                }
+
+            ]
+        },
+        computed:{
+            old_employee:function () {
+                return this.office.filter(function (item) {
+                    return item.age > 23;
+                })
+            }
+        }
+    });
+</script>
+</html>
