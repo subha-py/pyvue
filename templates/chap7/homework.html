@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<!-- binding body style to an object -->
+<body :style="bgColor">
+<div id="app">
+
+        <h1>Paint this background!</h1>
+        <input type="color" v-model="bgColor.backgroundColor" />
+</div>
+<pre>
+    {{ $data|json }}
+</pre>
+</body>
+<script src="../js/vue.min.js"></script>
+<script type="text/javascript">
+    new Vue({
+        el: 'body',
+        data: {
+            bgColor: {
+                backgroundColor: "#00cc00"
+            }
+        }
+    });
+</script>
+<style type="text/css">
+    .centered {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-top: -50px;
+        margin-left: -100px;
+    }
+</style>
+</html>

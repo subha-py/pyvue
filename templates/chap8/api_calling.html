@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Api calling</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Let's hear some stories!</h1>
+    <ul class="list-group">
+        <story v-for="story in stories" :story="story"></story>
+    </ul>
+    <pre>
+        {{ $data|json }}
+    </pre>
+</div>
+<template id="template-story-raw">
+    <li class="list-group-item">
+        {{ story.writer }} said "{{ story.plot }}"
+    </li>
+</template>
+</body>
+<script src="../js/vue.min.js"></script>
+<script src="../js/jquery.js"></script>
+<script>
+
+    Vue.component('story',{
+        template:'#template-story-raw',
+        props:['story']
+    });
+
+
+    var vm=new Vue({
+        el:'.container',
+        data:{
+           stories:[]
+        },
+        ready:function () {
+            $.get('http://localhost:8000/',function (data) {
+                console.log('I am here!');
+                console.log(data);
+                vm.stories=data
+            })
+        }
+
+    })
+</script>
+</html>

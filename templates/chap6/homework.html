@@ -18,15 +18,6 @@
 <template id="chariot_template">
     <li class="list-group-item">
          {{ chariot.name }} has {{ chariot.horses }}
-    <!--    <button v-show="!story.voted" @click="upvote" class="btn btn-sm btn-success">
-            Upvote
-        </button>
-        <button v-show="!is_favorite" @click="set_favorite" class="btn btn-sm btn-success">
-            Favorite
-        </button>
-        <span class="glyphicon glyphicon-star pull-right" aria-hidden="true" v-show="is_favorite">
-
-        </span>  -->
         <button v-show="picked==false" @click="choose" class="btn btn-sm btn-default">
             Choose
         </button>
