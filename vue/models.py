@@ -4,5 +4,5 @@ from django.db import models
 class Story(models.Model):
     upvotes=models.PositiveIntegerField()
     writer=models.CharField(max_length=20)
-    post=models.TextField()
+    plot=models.TextField()
     timestamp=models.DateTimeField(auto_now=True)

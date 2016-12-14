@@ -3,4 +3,4 @@ from vue.models import Story
 class StorySerializer(serializers.ModelSerializer):
     class Meta:
         model=Story
-        fields=('id','upvotes','writer','post')
+        fields=('id','upvotes','writer','plot')
