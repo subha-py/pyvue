@@ -2,39 +2,82 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>People of Gaul</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 </head>
-
-<!-- binding body style to an object -->
-<body :style="bgColor">
-<div id="app">
-
-        <h1>Paint this background!</h1>
-        <input type="color" v-model="bgColor.backgroundColor" />
+<body>
+<div class="container">
+    <h3>Team List</h3>
+    <ul class="list-group">
+        <li class="list-group-item" v-for="(person,index) in sortedPersons">
+                {{ index+1 }}.{{ person.name }} is {{ person.age }} years old.
+        </li>
+    </ul>
+    <button class="btn btn-sm btn-success" @click="changeOrder">Reverse Order</button>
+    <h3>Team List:old</h3>
+    <ul class="list-group">
+        <li class="list-group-item" v-for="(person,index) in old">
+                {{ index+1 }}.{{ person.name }} is {{ person.age }} years old.
+        </li>
+    </ul>
+    <pre>
+        {{ $data }}
+    </pre>
 </div>
-<pre>
-    {{ $data|json }}
-</pre>
+
 </body>
-<script src="../js/vue.min.js"></script>
-<script type="text/javascript">
+<script src="../js/vue.js"></script>
+<script src="../js/lodash.js"></script>
+<script>
     new Vue({
-        el: 'body',
-        data: {
-            bgColor: {
-                backgroundColor: "#00cc00"
+        el:'.container',
+        data:{
+            persons:[
+                {
+                    name:'Subha Bera',
+                    age:22
+                },
+                {
+                    name:'Vivek Mishra',
+                    age:28
+                },
+                {
+                    name:'Neerav Pareek',
+                    age:35
+                },
+                {
+                    name:'Nisarg Bavishi',
+                    age:25
+                },
+                {
+                    name:'Alka Tank',
+                    age:22
+                },
+                {
+                    name:'Shubham Patel',
+                    age:22
+                }
+            ],
+            order:'desc'
+
+        },
+        computed:{
+            old:function () {
+                return this.persons.filter(function (person) {
+                    return person.age>22
+                })
+            },
+            sortedPersons:function () {
+                return _.orderBy(this.persons,'age',this.order)
+            }
+        },
+        methods:{
+            changeOrder:function () {
+                this.order=(this.order==='desc') ? 'asc' : 'desc'
             }
         }
-    });
+
+
+    })
 </script>
-<style type="text/css">
-    .centered {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        margin-top: -50px;
-        margin-left: -100px;
-    }
-</style>
 </html>

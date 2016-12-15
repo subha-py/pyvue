@@ -47,13 +47,18 @@
            {{ story.writer }} said "{{ story.plot }}"
         </li>
     </ul>
+    <ul class="list-group">
+        <li class="list-group-item" v-for="(story,index) in stories">
+           {{ index }}.{{ story.writer }} said "{{ story.plot }}"
+        </li>
+    </ul>
     <pre>
-        {{ $data|json }}
+        {{ $data }}
     </pre>
 </div>
 
 </body>
-<script src="../js/vue.min.js"></script>
+<script src="../js/vue.js"></script>
 <script>
     Vue.filter('famous',function (stories) {
         return stories.filter(function (item) {

@@ -5,25 +5,25 @@
     <title>Who is the mayor?</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body @keyup.c="clear">
-<div class="container">
+<body >
+<div @keyup.c="clear" class="container">
     <ul class="list-group">
         <li class="list-group-item" v-for="candidate in candidates ">
             Mr.{{ candidate.name }} - {{ candidate.vote }}
             <button class="btn btn-sm" @click="candidate.vote++">Vote</button>
         </li>
     </ul>
-    <h2>Our mayor is {{ mayor.name }}!</h2>
+    <h2>Our mayor is Mr.{{ mayor.name }}!</h2>
     <pre>
-        {{ $data|json }}
+        {{ $data }}
     </pre>
 </div>
 
 </body>
-<script src="../js/vue.min.js"></script>
+<script src="../js/vue.js"></script>
 <script>
     new Vue({
-        el:'body',
+        el:'.container',
         data:{
             candidates:[
                 {

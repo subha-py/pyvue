@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>stories</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <ul class="list-group">
+        <li class="list-group-item" v-for="(story,index) in stories">
+           {{ index+1 }}.{{ story.writer }} said "{{ story.plot }}"
+        </li>
+    </ul>
+    <pre>
+        {{ $data }}
+    </pre>
+</div>
+
+</body>
+<script src="../js/vue.js"></script>
+<script>
+
+    new Vue({
+        el:'.container',
+        data: {
+            stories:[
+                {
+                    plot:'I crashed my car today!',
+                    writer:'Alex',
+                    upvotes:21,
+                },
+                {
+                    plot: 'Someone ate my chocolate...',
+                    writer:'John',
+                    upvotes:22,
+                },
+                {
+                    plot:"I ate someone's chocolate!",
+                    writer:'Alex',
+                    upvotes:20,
+                },
+                {
+                    plot:'Yesterday,someone stole my bag!',
+                    writer:'John',
+                    upvotes:13,
+                }
+
+            ]
+        }
+
+    })
+</script>
+</html>
