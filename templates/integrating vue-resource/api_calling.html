@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Api Calling</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="app" class="container">
+    <h1>Let's hear some stories</h1>
+    <ul class="list-group">
+        <story v-for="story in stories" :story="story"></story>
+    </ul>
+    <pre>
+        {{ $data }}
+    </pre>
+</div>
+
+<template id="story-template">
+        <li class="list-group-item">
+            {{ story.writer }} said "{{ story.plot }}"
+            <span>{{ story.upvotes }}</span>
+        </li>
+</template>
+</body>
+<script src="../js/vue.js"></script>
+<script src="../js/jquery.js"></script>
+<script>
+    Vue.component('story',{
+        template:'#story-template',
+        props:['story']
+    });
+    var vm=new Vue({
+        el:'.container',
+        data:{
+            stories:[]
+        },
+        mounted:function () {
+            $.get('http://localhost:8000/story',function (data) {
+                vm.stories=data
+            })
+        }
+
+    })
+</script>
+</html>

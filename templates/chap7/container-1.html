@@ -12,7 +12,7 @@
     <story plot="The dark side of the Force is stronger"></story>
 
     <pre>
-        {{ $data|json }}
+        {{ $data }}
     </pre>
 </div>
 <template id="story-template">
@@ -21,7 +21,7 @@
 
 </template>
 </body>
-<script src="../js/vue.min.js"></script>
+<script src="../js/vue.js"></script>
 
 <script>
     Vue.component('story',{

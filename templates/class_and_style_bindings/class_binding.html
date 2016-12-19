@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flip Color</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        .red {
+            background: #ff0000;
+        }
+        .blue {
+            background: #0000ff;
+        }
+        .purple {
+            background: #7B1FA2;
+        }
+        .green {
+            background: #4CAF50;
+        }
+        .box {
+            float: left;
+            width: 200px;
+            height: 200px;
+            margin: 40px;
+            border: 1px solid rgba(0, 0, 0, .2);
+        }
+    </style>
+</head>
+<body>
+<div class="container text-center">
+
+    <div class="box" :class="{ 'red' : color, 'blue' : !color }" ></div>
+    <div class="box" :class="{ 'purple' : color, 'green' : !color }" ></div>
+    <div class="box" :class="{ 'red' : color, 'blue' : !color }" ></div>
+    <div class="box" :class="{ 'purple' : color, 'green' : !color }" ></div>
+    <button @click="flipcolor" class="btn btn-lg btn-success">Flipcolor</button>
+    <pre>
+        {{ $data }}
+    </pre>
+</div>
+
+</body>
+<script src="../js/vue.js"></script>
+<script>
+    new Vue({
+        el:'.container',
+        data:{
+            color:true,
+        },
+        methods:{
+            flipcolor:function () {
+                this.color=!this.color;
+            }
+        }
+
+    })
+</script>
+</html>

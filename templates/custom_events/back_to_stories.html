@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rewrite Story</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+
+    <h1>Let's hear some stories!</h1>
+    <ul class="list-group">
+        <story v-for="story in stories" :story="story" :favorite="favorite" @update="updateFavorite"></story>
+    </ul>
+    <pre>{{ $data }}</pre>
+</div>
+<template id="story-template">
+    <li class="list-group-item">
+        {{ story.writer }} said "{{ story.plot }}"
+        <button v-show="!story.voted" @click="upvote" class="btn btn-default">
+            Upvote
+        </button>
+        <button class="btn btn-primary" v-show="!isFavorite" @click="updateFavorite1">
+            Favorite
+        </button>
+        <span v-show="isFavorite" class="glyphicon glyphicon-star pull-right" aria-hidden="true"></span>
+    </li>
+</template>
+</body>
+<script src="../js/vue.js"></script>
+<script>
+    Vue.component('story',{
+        template: '#story-template',
+        props:['story','favorite'],
+        methods:{
+            upvote:function () {
+                this.story.upvotes+=1;
+                this.story.voted=true;
+            },
+            setFavorite:function () {
+                this.favorite=this.story
+            },
+            updateFavorite1:function () {
+                //'update' is just the name of the custome event
+                //it could be anything ex-fav-update
+                this.$emit('update',this.story)
+            }
+        },
+        computed:{
+            isFavorite:function () {
+                return this.favorite==this.story
+            }
+
+        }
+
+    });
+    new Vue({
+        el:'.container',
+        data:{
+            stories:[
+                {
+                    plot:'I crashed my car today!',
+                    writer:'Alex',
+                    upvotes:21,
+                    voted:false
+                },
+                {
+                    plot: 'Someone ate my chocolate...',
+                    writer:'John',
+                    upvotes:22,
+                    voted:false
+                },
+                {
+                    plot:"I ate someone's chocolate!",
+                    writer:'Alex',
+                    upvotes:20,
+                    voted:false
+                },
+                {
+                    plot:'Yesterday,someone stole my bag!',
+                    writer:'John',
+                    upvotes:13,
+                    voted:false
+                }
+
+            ],
+            favorite:{},
+
+        },
+        methods:{
+            updateFavorite:function (story) {
+                this.favorite=story
+            }
+        }
+
+    })
+</script>
+</html>

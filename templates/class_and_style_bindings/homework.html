@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Color</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container" :style="bgColor">
+    <input class="form-control text-center" type="color" v-model="bgColor.backgroundColor">
+
+    <pre>
+        {{ $data }}
+    </pre>
+</div>
+
+</body>
+<script src="../js/vue.js"></script>
+<script>
+    new Vue({
+        el:'.container',
+        data:{
+           bgColor: {
+               backgroundColor: "#00cc00"
+            }
+        }
+
+    })
+</script>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chariots</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Karna's Rath choosing application</h1>
+    <ul class="list-group">
+        <chariot v-for="chariot in chariots" :chariot_obj="chariot" :chosen_chariot="chosen"  ></chariot>
+    </ul>
+    <pre>
+        {{ $data }}
+    </pre>
+</div>
+</body>
+
+
+
+
+
+<template id="chariot_template">
+    <li class="list-group-item">
+        {{ chariot_obj.name }} has {{ chariot_obj.horses }}
+        <button  v-if="chosen==false" @click="update_picked" class="btn btn-sm btn-primary">
+            Choose
+        </button>
+
+        <div v-else>
+        <button class="btn btn-sm btn-success" v-if="chariot_obj.horses < chosen_chariot.horses">
+            Dismiss Horses
+        </button>
+        <button class="btn btn-sm btn-info" v-if="chariot_obj.horses > chosen_chariot.horses">
+            Hire Horses
+        </button>
+        <button class="btn btn-sm btn-danger" disabled v-if="chariot_obj==chosen_chariot">
+            Riding!
+        </button>
+
+        </div>
+    </li>
+</template>
+
+
+
+
+<script src="../js/vue.js"></script>
+<script>
+
+    var bus=new Vue();
+
+    Vue.component('chariot', {
+        template:'#chariot_template',
+        props:['chariot_obj','chosen_chariot'],
+        data:function () {
+            return {
+                chosen:false
+            }
+        },
+        methods:{
+            update_picked:function () {
+                bus.$emit('chosen',this.chariot_obj)
+            },
+            update_chosen:function () {
+                this.chosen=true
+            }
+
+        },
+        created(){
+            bus.$on('chosen',this.update_chosen)
+        }
+
+    });
+    new Vue({
+        el:'.container',
+        data: {
+            chariots: [
+                {
+                    name: 'jaya',
+                    horses: '4'
+                },
+                {
+                    name: 'surya',
+                    horses: '2'
+                },
+                {
+                    name: 'moksha',
+                    horses: '6'
+                },
+                {
+                    name: 'abhaga',
+                    horses: '8'
+                }
+            ],
+            chosen:{},
+        },
+        methods:{
+            update_chosen_root:function (chariot_obj) {
+                this.chosen=chariot_obj
+            }
+        },
+        created(){
+            bus.$on('chosen',this.update_chosen_root)
+        }
+
+
+
+    })
+</script>
+</html>

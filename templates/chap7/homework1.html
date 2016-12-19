@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chariots</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+     <h1>Karna's Rath choosing application</h1>
+        <ul class="list-group">
+            <chariot v-for="chariot in chariots" :chariot="chariot" :chosen.sync="chosen" :picked.sync="picked"></chariot>
+        </ul>
+    <pre>
+        {{ $data|json }}
+    </pre>
+</div>
+<template id="chariot_template">
+    <li class="list-group-item">
+         {{ chariot.name }} has {{ chariot.horses }}
+        <button v-show="picked==false" @click="choose" class="btn btn-sm btn-default">
+            Choose
+        </button>
+        <button class="btn btn-danger" v-show="is_chosen==true" disabled>Riding!</button>
+        <button v-show="is_lesser && !is_chosen" class="btn btn-sm btn-info">
+            Dismiss Horses
+        </button>
+        <button v-show="is_greater && !is_chosen" class="btn btn-sm btn-warning">
+            Hire Horses
+        </button>
+    </li>
+</template>
+</body>
+<script src="../js/vue.min.js"></script>
+<script>
+    Vue.component('chariot', {
+        template:'#chariot_template',
+        props:['chariot','chosen','picked'],
+        methods:{
+            choose:function () {
+                this.chosen=this.chariot
+                this.picked=true
+            }
+        },
+        computed:{
+            is_chosen:function () {
+                return this.chosen==this.chariot
+            },
+            is_lesser:function () {
+                return this.chosen.horses>this.chariot.horses
+            },
+            is_greater:function () {
+                return this.chosen.horses<this.chariot.horses
+            },
+        }
+    });
+    new Vue({
+        el:'.container',
+        data:{
+            chariots:[
+                {
+                    name:'jaya',
+                    horses:'4'
+                },
+                    {
+                    name:'surya',
+                    horses:'2'
+                },
+                {
+                    name:'moksha',
+                    horses:'6'
+                },
+                {
+                    name:'abhaga',
+                    horses:'8'
+                }
+            ],
+            chosen:{},
+            picked:false
+        }
+
+    })
+</script>
+</html>

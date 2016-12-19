@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Api Calling</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+
+
+<body>
+<div class="container">
+    <h1>Let's hear some stories or you can
+        <button class="btn btn-sm btn-success" @click="createStory()">add a new one</button>
+    </h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Plot</th>
+            <th>Writer</th>
+            <th>Upvotes</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="story in stories" is="story" :story="story"></tr>
+        </tbody>
+    </table>
+    <div class="pagination">
+        <div class="btn-group">
+            <button class="btn btn-primary" @click="fetchStories(pagination.prev_page_url)" :disabled="!pagination.prev_page_url">
+                Previous
+            </button>
+            <button class="btn btn-primary" @click="fetchStories(pagination.next_page_url)" :disabled="!pagination.next_page_url">
+                Next
+            </button>
+        </div>
+    </div>
+    <pre>
+        {{ $data }}
+    </pre>
+</div>
+
+
+<p class="lead">Here's a list of all your stories</p>
+</body>
+
+
+
+
+
+
+
+<template id="story-template">
+    <tr>
+        <td>{{ story.id }}</td>
+        <td>
+            <input v-if="story.editing" v-model="story.plot" class="form-control">
+            <span v-else>{{ story.plot }}</span></td>
+        <td>
+            <input v-if="story.editing" v-model="story.writer" class="form-control">
+            <span v-else>{{ story.writer }}</span></td>
+        <td>{{ story.upvotes }}</td>
+        <td>
+            <div v-if="!story.editing" class="btn-group">
+                <button @click="upvoteStory(story)" class="btn btn-primary">
+                    Upvote
+                </button>
+                <button @click="deleteStory(story)" class="btn btn-danger">
+                    Delete
+                </button>
+                <button @click="editStory(story)" class="btn btn-info">
+                    Edit
+                </button>
+            </div>
+            <div v-else class="btn-group">
+                <button v-if="story.id" @click="updateStory(story)" class="btn btn-primary">
+                    Update Story
+                </button>
+                <button v-else @click="storeStory(story)" class="btn btn-primary">
+                    Save new story
+                </button>
+                <button @click="story.editing=false" class="btn btn-default">
+                    Cancel
+                </button>
+            </div>
+        </td>
+    </tr>
+</template>
+
+
+
+
+
+
+
+
+
+<script src="../js/vue.js"></script>
+<script src="../js/jquery.js"></script>
+<script src="../js/vue.resource.js"></script>
+<script>
+    Vue.component('story',{
+        template:'#story-template',
+        props:['story'],
+        methods:{
+            upvoteStory:function (story) {
+                story.upvotes++;
+                this.$http.patch('http://localhost:8000/story/'+story.id+'/',story)
+            },
+            deleteStory:function (story) {
+                this.$http.delete('http://localhost:8000/story/'+story.id+'/')
+                var index=vm.stories.indexOf(story)
+                vm.stories.splice(index,1)
+            },
+            editStory:function (story) {
+                story.editing=true
+            },
+            updateStory:function (story) {
+                this.$http.patch('http://localhost:8000/story/'+story.id+'/',story)
+                story.editing=false
+            },
+            storeStory:function (story) {
+                this.$http.post('http://localhost:8000/story/',story)
+                        .then(function (response) {
+                            this.story.editing=false;
+                            this.story.id=response.data.id;
+                            var index=vm.stories.indexOf(story)
+                            vm.stories.splice(index,1)
+                        })
+            }
+        }
+    });
+    var vm=new Vue({
+        el:'.container',
+        data:{
+            stories:[],
+            pagination:{
+
+            }
+        },
+        methods:{
+            createStory:function () {
+                var newStory={
+                    'plot':'',
+                    'upvotes':0,
+                    'writer':'',
+                    'editing':true
+                };
+                this.stories.push(newStory)
+            },
+            fetchStories:function (page_url) {
+                var vm=this;
+                page_url=page_url || 'http://localhost:8000/story/'
+                console.log(page_url)
+                this.$http.get(page_url)
+                        .then(function (response) {
+                            var storiesReady=response.data.results.map(function (story) {
+                                story.editing=false
+                                return story
+                            });
+
+                            vm.makePagination(response.data);
+                            Vue.set(vm,'stories',storiesReady);
+
+                        })
+
+
+
+            },
+            makePagination:function (data) {
+                var pagination= {
+                    next_page_url:data.next,
+                    prev_page_url:data.previous
+                };
+                Vue.set(vm,'pagination',pagination)
+            }
+        },
+        mounted:function () {
+            this.fetchStories()
+        }
+    })
+</script>
+</html>

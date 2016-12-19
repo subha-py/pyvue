@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Api Calling</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Let's hear some stories</h1>
+    <table class="table table-striped">
+        <tr>
+            <th>#</th>
+            <th>Plot</th>
+            <th>Writer</th>
+            <th>Upvotes</th>
+            <th>Actions</th>
+        </tr>
+        <tr v-for="story in stories" is="story" :story="story"></tr>
+    </table>
+    <pre>
+        {{ $data }}
+    </pre>
+</div>
+
+
+<p class="lead">Here's a list of all your stories</p>
+</body>
+<template id="story-template">
+    <tr>
+        <td>{{ story.id }}</td>
+        <td><span>{{ story.plot }}</span></td>
+        <td><span>{{ story.writer }}</span></td>
+        <td>{{ story.upvotes }}</td>
+        <td>
+            <div class="btn-group">
+                <button @click="upvoteStory(story)" class="btn btn-primary">
+                    Upvote
+                </button>
+                <button @click="deleteStory(story)" class="btn btn-danger">
+                    Delete
+                </button>
+            </div>
+        </td>
+    </tr>
+</template>
+<script src="../js/vue.js"></script>
+<script src="../js/jquery.js"></script>
+<script>
+    Vue.component('story',{
+        template:'#story-template',
+        props:['story']
+    });
+    var vm=new Vue({
+        el:'.container',
+        data:{
+            stories:[]
+        },
+        mounted:function () {
+            $.get('http://localhost:8000/story/',function (data) {
+                vm.stories=data
+            })
+        },
+        methods:{
+            upvoteStory:function (story) {
+                story.upvotes++;
+                $.ajax({
+                    url:'http://localhost:8000/story/'+story.id+'/',
+                    type:'PATCH',
+                    data:story
+                })
+            },
+            deleteStory:function (story) {
+                $.ajax({
+                    url:'http://localhost:8000/story/'+story.id+'/',
+                    type:'DELETE',
+                })
+                var index=vm.stories.indexOf(story)
+                vm.stories.splice(index,1)
+            }
+        }
+
+    })
+</script>
+</html>
