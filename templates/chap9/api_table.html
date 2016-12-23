@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Story Table</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="app" class="container">
+    <table class="table table-stripped">
+        <tr>
+            <th>Writer</th>
+            <th>Plot</th>
+            <th>Upvotes</th>
+        </tr>
+        <tr v-for="story in stories" is="story" :story="story">
+
+        </tr>
+    </table>
+    <template id="template-story-raw">
+        <tr>
+            <td>
+                {{ story.writer }}
+            </td>
+            <td>
+                {{ story.plot }}
+            </td>
+            <td>
+                {{ story.upvotes }}
+            </td>
+            <td>
+                <div class="btn-group">
+                    <button @click="upvoteStory(story)" class="btn btn-primary">
+                        Upvote
+                    </button>
+                    <button @click="deleteStory(story)" class="btn btn-danger">
+                        Delete
+                    </button>
+                </div>
+            </td>
+        </tr>
+    </template>
+    <pre>
+        {{ $data|json }}
+    </pre>
+</div>
+
+</body>
+<script src="../js/vue.min.js"></script>
+<script src="../js/jquery.js"></script>
+<script src="../js/vue.resource.min.js"></script>
+<script>
+    Vue.component('story',{
+        template:'#template-story-raw',
+        props:['story'],
+        methods:{
+            upvoteStory:function (story) {
+                story.upvotes++;
+                $.ajax({
+                    url:'http://localhost:8000/story/'+story.id+'/',
+                    type:'PATCH',
+                    data:story,
+                })
+            },
+            deleteStory:function (story) {
+                vm.stories.$remove(story)
+                $.ajax({
+                    url:'http://localhost:8000/story/'+story.id+'/',
+                    type:'DELETE'
+                })
+            }
+        }
+    });
+
+
+    var vm=new Vue({
+        el:'.container',
+        data:{
+            stories:[]
+        },
+        ready:function () {
+            $.get('http://localhost:8000/story/',function (data) {
+                vm.stories=data
+            })
+        }
+
+    })
+</script>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1> Let's hear some stories!</h1>
+    <div>
+        <h3>Alex's Stories</h3>
+        <ul class="list-group">
+            <li class="list-group-item" v-for="story in storiesBy('Alex') ">
+                {{ story.writer }} said "{{ story.plot }}"
+            </li>
+        </ul>
+    </div>
+    <div>
+        <h3>John's Stories</h3>
+        <ul class="list-group">
+            <li class="list-group-item" v-for="story in storiesBy('John') ">
+                {{ story.writer }} said "{{ story.plot }}"
+            </li>
+        </ul>
+    </div>
+    <h3>These are famous stories</h3>
+    <ul class="list-group">
+        <h5>The number of famous stories is {{ famous.length }}</h5>
+        <li class="list-group-item" v-for="story in famous">
+            {{ story.writer }} said, "{{ story.plot }}" received {{ story.upvotes }}
+        </li>
+    </ul>
+    <h3>Search Bar</h3>
+    <input class="form-control" v-model="query">
+    <ul class="list-group">
+        <li class="list-group-item" v-for="story in search">
+            {{ story.writer }} said "{{ story.plot }}" received {{ story.upvotes }}
+        </li>
+    </ul>
+    <h3>Order Stories</h3>
+    <ul class="list-group">
+        <li class="list-group-item" v-for="story in orderedStories">
+            {{ story.writer }} said "{{ story.plot }}" received {{ story.upvotes }}
+        </li>
+    </ul>
+    <button class="btn btn-sm btn-success" @click="changeOrdering">Reverse Order</button>
+
+
+    <pre>
+        {{ $data }}
+    </pre>
+</div>
+
+</body>
+<script src="../js/lodash.js"></script>
+<script src="../js/vue.js"></script>
+<script>
+
+
+
+    new Vue({
+        el:'.container',
+        data:{
+            stories:[
+                {
+                    plot:'I carashed my car today!',
+                    writer:'Alex',
+                    upvotes:19
+                },
+                {
+                    plot:'Yesterday,someone stole my bag!',
+                    writer:'John',
+                    upvotes:20
+                },
+                {
+                    plot:'Someone ate my chocolate..',
+                    writer:'John',
+                    upvotes:21
+                },
+                {
+                    plot:"I ate someone's chocolate",
+                    writer:'Alex',
+                    upvotes:22
+                }
+            ],
+            query:'',
+            order:'desc'
+        },
+        methods:{
+            storiesBy: function (writer) {
+                return this.stories.filter(function (story) {
+                    return story.writer==writer
+                })
+            },
+            changeOrdering:function () {
+                this.order=(this.order==='desc') ? 'asc':'desc'
+            }
+        },
+        computed:{
+            famous:function () {
+                return this.stories.filter(function (story) {
+                    return story.upvotes>20
+                })
+            },
+            search:function () {
+                var query=this.query;
+                return this.stories.filter(function (story) {
+                    return story.plot.includes(query)
+                })
+            },
+            orderedStories:function () {
+                var order=this.order;
+                return _.orderBy(this.stories,'upvotes',order)
+            }
+        }
+
+    })
+</script>
+</html>

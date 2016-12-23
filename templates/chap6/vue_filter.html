@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <ul class="list-group">
+        <li class="list-group-item" v-for="hero in heroes">
+            {{ hero|snitch }}
+        </li>
+    </ul>
+    <pre>
+        {{ $data }}
+    </pre>
+</div>
+
+</body>
+<script src="../js/vue.js"></script>
+<script>
+    Vue.filter('snitch',function (hero) {
+       return hero.secret_id + ' is '
+        + hero.first_name + ' '
+        + hero.last_name + ' '
+    });
+
+
+    new Vue({
+        el:'.container',
+        data:{
+            heroes:[
+                {
+                    first_name:'Bruce',
+                    last_name:'Wayne',
+                    secret_id:'Batman'
+                },
+                {
+                    first_name:'Clark',
+                    last_name:'Kent',
+                    secret_id:'Superman'
+                },
+                {
+                    first_name:'Peter',
+                    last_name:'Parker',
+                    secret_id:'Spiderman'
+                },
+                {
+                    first_name:'Jay',
+                    last_name:'Garrick',
+                    secret_id:'Flash'
+                }
+            ]
+        }
+
+    })
+</script>
+</html>
